@@ -29,21 +29,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Invalid email or password.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
 <html>
-<head><title>CampusLink - Login</title></head>
-<body>
-    <h2>Sign In</h2>
-    <?php if ($error): ?>
-        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
-    <form method="POST" action="login.php">
-        <input type="email" name="email" placeholder="University Email" required><br><br>
-        <input type="password" name="password" placeholder="Password" required><br><br>
-        <button type="submit">Sign In</button>
-    </form>
-    <p>Need an account? <a href="register.php">Register</a></p>
-</body>
+    <head>
+        <title>CampusLink - Login</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+    <body>
+        <main>
+            <div class="aside_1">
+                <h2>Sign In</h2>
+                <?php if ($error): ?>
+                    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+                <?php endif; ?>
+                <form method="POST" action="login.php">
+                    <input type="email" name="email" placeholder="University Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Sign In</button>
+                </form>
+                <p>Need an account? <a href="register.php">Register</a></p>
+            </div>
+            <div class="aside_2">
+                <h2>Welcome Back!</h2>
+                
+            </div>
+        </main>
+    </body>
 </html>

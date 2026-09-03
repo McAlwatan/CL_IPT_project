@@ -9,21 +9,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    // 1. Basic validation
     if (empty($name) || empty($email) || empty($password)) {
         $errors[] = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
     }
 
-    // 2. Check if email already exists
+    // Angalia kama email ina exist, kama ipo throw an error 
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
         $errors[] = "An account with this email already exists.";
     }
 
-    // 3. Register user if no errors
+    // Register the user kama hakuna error
     if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $verificationToken = bin2hex(random_bytes(32));
@@ -50,18 +49,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
     <head>
         <title>CampusLink - Register</title>
+        <link rel="stylesheet" href="../css/styles.css">
     </head>
     <body>
-        <h2>Sign Up</h2>
-        <?php foreach ($errors as $error): ?>
-            <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-        <?php endforeach; ?>
-        <form method="POST" action="register.php">
-            <input type="text" name="name" placeholder="Full Name" required><br><br>
-            <input type="email" name="email" placeholder="student@university.edu" required><br><br>
-            <input type="password" name="password" placeholder="Password" required><br><br>
-            <button type="submit">Sign Up</button>
-        </form>
-        <p>Already have an account? <a href="login.php">Log In</a></p>
+        <main>
+            <div class="aside_1">
+                <h2>Sign Up</h2>
+                <?php foreach ($errors as $error): ?>
+                    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+                <?php endforeach; ?>
+                <form method="POST" action="register.php">
+                    <input type="text" name="name" placeholder="Full Name" required>
+                    <input type="email" name="email" placeholder="student@university.edu" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Sign Up</button>
+                </form>
+                <p>Already have an account? <a href="login.php">Log In</a></p>
+            </div>
+            <div class="aside_2">
+                <h2>Welcome to CampusLink</h2>
+            </div>
+        </main>
+        
     </body>
 </html>
