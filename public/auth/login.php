@@ -5,7 +5,7 @@ require_once __DIR__ . '/../../app/includes/auth.php';
 $error = '';
 
 if (isLoggedIn()) {
-    header("Location: /feed/index.php");
+    header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
     exit;
 }
 
@@ -35,8 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CampusLink - Login</title>
-        <link rel="stylesheet" href="../css/styles.css">
+        <link rel="stylesheet" href="../css/authStyles.css">
     </head>
     <body>
         <main>
@@ -54,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="aside_2">
                 <h2>Welcome Back!</h2>
-                
             </div>
         </main>
     </body>

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../app/includes/db.php';
 require_once __DIR__ . '/../../app/includes/auth.php';
 
-$errors = [];
+$errors = []; // 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
@@ -48,8 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>CampusLink - Register</title>
-        <link rel="stylesheet" href="../css/styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CampusLink | Register</title>
+        <link rel="stylesheet" href="../css/authStyles.css">
     </head>
     <body>
         <main>
