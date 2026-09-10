@@ -25,8 +25,8 @@ header > div > ul > li{
     cursor: pointer;
 }
 header > button {
-    background-color: blue;
-    border: 1px solid rgba(0, 0, 0, 0.139);
+    background-color:transparent;
+    border: 1px solid rgb(0, 0, 0);
     width: 100px;
     height: 40px;
     border-radius: 10px;
