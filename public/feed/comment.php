@@ -17,7 +17,7 @@ if ($postId <= 0 || $content === '') {
     exit;
 }
 
-$stmt = $pdo->prepare("INSERT INTO post_comments (post_id, author_id, content) VALUES (?, ?, ?)");
+$stmt = $pdo->prepare("INSERT INTO post_comments (post_id, user_id, comment) VALUES (?, ?, ?)");
 $stmt->execute([$postId, $userId, $content]);
 
 header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php#post-$postId");

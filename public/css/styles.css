@@ -455,7 +455,6 @@ header {
 .cta-points ul{
     list-style: none;
 }
-<<<<<<< HEAD
 .cta-points > ul > li {
     display: flex;
     align-items: baseline;
@@ -471,22 +470,6 @@ header {
     border-radius: 50%;
     background: var(--on-ink);
     flex-shrink: 0;
-=======
-header > button {
-    background-color: blue;
-    border: 1px solid rgba(0, 0, 0, 0.139);
-    width: 100px;
-    height: 40px;
-    border-radius: 10px;
-    font-weight: 400;
-    cursor: pointer;
-    color: #fff;
-}
-header > button > a{
-    text-decoration: none;
-    font-weight: 400;
-    color: #fff;
->>>>>>> 6d8970ac2c7f3e9ad2d999272885765ff6272250
 }
 
 .cta-band .btn-inverse { flex-shrink: 0; }

@@ -86,7 +86,7 @@ function timeAgo($datetime) {
                                 <span class="topbar-avatar small"><?= initials($comment['author_name']) ?></span>
                                 <div class="comment-bubble">
                                     <p class="comment-author"><?= htmlspecialchars($comment['author_name']) ?></p>
-                                    <p class="comment-text"><?= htmlspecialchars($comment['content']) ?></p>
+                                    <p class="comment-text"><?= htmlspecialchars($comment['comment']) ?></p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
