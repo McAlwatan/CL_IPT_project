@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../app/includes/db.php';
 require_once __DIR__ . '/../../app/includes/auth.php';
 
-$errors = []; // 
+$errors = []; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
@@ -15,39 +15,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Invalid email format.";
     }
 
-    // Angalia kama email ina exist, kama ipo throw an error 
+    // Check if email already exists
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
         $errors[] = "An account with this email already exists.";
     }
 
-    // Register the user kama hakuna error
+    // Register the user if no errors exist
     if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $verificationToken = bin2hex(random_bytes(32));
 
-        // We pass NULL or a default value for university_id since we removed the domain check
+        // MODIFIED: We set verification_token to NULL and is_active strictly to 1 for instant access
         $insert = $pdo->prepare("
             INSERT INTO users (name, email, password, university_id, verification_token, is_active) 
-            VALUES (?, ?, ?, NULL, ?, 0)
+            VALUES (?, ?, ?, NULL, NULL, 1)
         ");
         
-        if ($insert->execute([$name, $email, $hashedPassword, $verificationToken])) {
-            $projectName = '/IPT_WEB_PROJECT/CampusLink/public';
-            $verifyLink = "http://" . $_SERVER['HTTP_HOST'] . $projectName . "/auth/verify.php?token=" . $verificationToken;
-
-            
-            die("Registration successful! Check email to verify account. <br> Dev Link: <a href='$verifyLink'>$verifyLink</a>");
+        if ($insert->execute([$name, $email, $hashedPassword])) {
+            // SUCCESS ROUTE: Redirect straight to the login page within your project directory structure
+            header("Location: /IPT_WEB_PROJECT/CampusLink/public/auth/login.php?registered=1");
+            exit;
+        } else {
+            $errors[] = "Something went wrong during account registration. Please try again.";
         }
     }
 }
 ?>
 
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CampusLink | Register</title>
         <link rel="stylesheet" href="../css/authStyles.css">
@@ -57,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="aside_1">
                 <h2>Sign Up</h2>
                 <?php foreach ($errors as $error): ?>
-                    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+                    <p style="color:red; font-size: 14px; margin-bottom: 10px;"><?= htmlspecialchars($error) ?></p>
                 <?php endforeach; ?>
                 <form method="POST" action="register.php">
                     <input type="text" name="name" placeholder="Full Name" required>
@@ -71,6 +70,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2>Welcome to CampusLink</h2>
             </div>
         </main>
-        
     </body>
 </html>

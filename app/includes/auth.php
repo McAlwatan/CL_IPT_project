@@ -25,14 +25,13 @@ function loginUser(array $user): void {
     ]; // hapa tunaweka data za user kwenye session yake
 }
 
-function logoutUser(): void {
-    $_SESSION = []; // hapa tunafuta data alizo nazo user kwenye session yake
-    if(ini_get("session.use_cookies")){
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000,
-            $params["path"], $params["domain"],
-            $params["secure"], $params["httponly"]
-        );
-    }
-    session_destroy(); // tunadestroy session ya user
+function login_user(array $user): void {
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user'] = [
+        'id' => $user['id'],
+        'name' => $user['name'],
+        'email' => $user['email'],
+        // FIX: Fixed spelling matching the database row
+        'university_id' => $user['university_id'] ?? null
+    ];
 }

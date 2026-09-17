@@ -7,7 +7,7 @@
         <input type="text" placeholder="Search students, groups, documents...">
     </div>
 
-    <a href="/IPT_WEB_PROJECT/CampusLink/public/profile/view.php" class="topbar-user">
+    <a href="/IPT_WEB_PROJECT/CampusLink/public/profile.php" class="topbar-user">
         <span class="topbar-avatar">
             <?= htmlspecialchars(strtoupper(substr($currentUser['name'] ?? 'S', 0, 1))) ?>
         </span>

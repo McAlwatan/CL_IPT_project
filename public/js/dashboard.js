@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('sidebarToggle');
-    const sidebar = document.querySelector('.sidebar');
+    const appShell = document.querySelector('.app-shell');
+    const menuToggleBtn = document.getElementById('menuToggle');
 
-    if (toggle && sidebar) {
-        toggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
-                sidebar.classList.remove('open');
+    if (menuToggleBtn) {
+        menuToggleBtn.addEventListener('click', () => {
+            // Checks viewport width dynamically
+            if (window.innerWidth > 768) {
+                // Desktop: Retract/collapse sidebar width down
+                appShell.classList.toggle('sidebar-collapsed');
+            } else {
+                // Mobile: Slid open the drawer overlay from the left
+                appShell.classList.toggle('mobile-sidebar-open');
             }
         });
     }

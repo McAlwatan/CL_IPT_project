@@ -4,8 +4,13 @@ require_once __DIR__ . '/../../app/includes/auth.php';
 
 $error = '';
 
+// 1. Guard check if already logged in: route to onboarding if missing university_id
 if (isLoggedIn()) {
-    header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+    if (empty($_SESSION['user']['university_id'])) {
+        header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
+    } else {
+        header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+    }
     exit;
 }
 
@@ -22,14 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Please verify your email address before logging in.";
         } else {
             loginUser($user);
-            header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+            
+            // 2. Interception Guard: Check if the user needs to complete onboarding [1]
+            if (empty($user['university_id'])) {
+                header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
+            } else {
+                header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+            }
             exit;
         }
     } else {
         $error = "Invalid email or password.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <body>
         <main>
             <div class="aside_1">
+                <?php if (isset($_GET['registered']) && $_GET['registered'] == 1): ?>
+                    <p style="color: #10b981; font-weight: 500; font-size: 14px; margin-bottom: 15px;">
+                        Account created successfully! login below
+                    </p>
+                <?php endif; ?>
+
                 <h2>Sign In</h2>
                 <?php if ($error): ?>
                     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
