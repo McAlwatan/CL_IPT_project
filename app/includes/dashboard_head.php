@@ -20,6 +20,7 @@ $pageTitle = $pageTitle ?? 'CampusLink';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/387650f35b.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/IPT_WEB_PROJECT/CampusLink/public/css/dashboard.css">
     <title><?= htmlspecialchars($pageTitle) ?> — CampusLink</title>

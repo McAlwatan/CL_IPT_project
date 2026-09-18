@@ -22,23 +22,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password'])) {
-        if ((int)$user['is_active'] === 0) {
-            $error = "Please verify your email address before logging in.";
-        } else {
-            loginUser($user);
-            
-            // 2. Interception Guard: Check if the user needs to complete onboarding [1]
-            if (empty($user['university_id'])) {
-                header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
-            } else {
-                header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
-            }
-            exit;
-        }
+if ($user && password_verify($password, $user['password'])) {
+    if ((int)$user['is_active'] === 0) {
+        $error = "Please verify your email address before logging in.";
     } else {
-        $error = "Invalid email or password.";
+        loginUser($user);
+        
+        // FIX: Explicitly populate the session data dictionary with the current DB columns value
+        $_SESSION['user']['university_id'] = $user['university_id'];
+        
+        // Check the database variable directly to determine routing paths
+        if (empty($user['university_id'])) {
+            header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
+        } else {
+            header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+        }
+        exit;
     }
+}
+
 }
 ?>
 

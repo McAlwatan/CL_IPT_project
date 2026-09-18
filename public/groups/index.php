@@ -5,7 +5,6 @@ require_once __DIR__ . '/../../app/includes/dashboard_head.php';
 
 $userId = $_SESSION['user_id'];
 
-// Handle group creation quickly if form is submitted to this same file
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group'])) {
     $name = trim($_POST['name'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -13,12 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group'])) {
     if (!empty($name)) {
         $pdo->beginTransaction();
         try {
-            // 1. Insert Group definition
             $stmt = $pdo->prepare("INSERT INTO groups (name, description, creator_id) VALUES (?, ?, ?)");
             $stmt->execute([$name, $description, $userId]);
             $groupId = $pdo->lastInsertId();
 
-            // 2. Automatically make the creator an Admin member of the group
             $stmt = $pdo->prepare("INSERT INTO group_members (group_id, user_id, role) VALUES (?, ?, 'admin')");
             $stmt->execute([$groupId, $userId]);
 
@@ -32,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_group'])) {
     }
 }
 
-// Fetch all available groups alongside a flag indicating if the current user has joined
 $stmt = $pdo->prepare("
     SELECT g.*, 
            (SELECT COUNT(*) FROM group_members WHERE group_id = g.id) as total_members,
@@ -42,70 +38,131 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$userId]);
 $groups = $stmt->fetchAll();
+
+function clInitial($name) {
+    $name = trim((string)$name);
+    return htmlspecialchars($name === '' ? 'G' : mb_strtoupper(mb_substr($name, 0, 1)));
+}
+function clAvatarClass($seed) {
+    $palette = ['rust', 'ink-blue', 'moss', 'plum'];
+    return 'avatar-' . $palette[crc32((string)$seed) % count($palette)];
+}
 ?>
 
-<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+<style>
+    :root {
+        --clf-ink: #1c1c1c;
+        --clf-sub: #767676;
+        --clf-line: #e4e4e4;
+        --clf-bg-soft: #f6f6f4;
+        --clf-accent: #b8441f;
+    }
+
+    .clg-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; gap: 16px; }
+    .clg-header h1 { font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.01em; color: var(--clf-ink); }
+    .clg-header p { color: var(--clf-sub); margin: 0; font-size: 13.5px; }
+
+    .btn-primary {
+        background: var(--clf-ink); color: #fff; border: none; border-radius: 6px;
+        padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+    }
+    .btn-primary:hover { background: #000; }
+
+    .clg-modal {
+        display: none; background: #fff; border: 1px solid var(--clf-line);
+        border-radius: 8px; padding: 20px; margin-bottom: 28px;
+    }
+    .clg-modal h3 { font-size: 15px; font-weight: 700; margin: 0 0 14px; color: var(--clf-ink); }
+    .clg-modal form { display: flex; flex-direction: column; gap: 12px; }
+    .clg-modal input[type="text"], .clg-modal textarea {
+        width: 100%; padding: 10px 12px; background: #fff; border: 1px solid var(--clf-line);
+        border-radius: 6px; color: var(--clf-ink); font-family: inherit; font-size: 13.5px; outline: none;
+    }
+    .clg-modal input[type="text"]:focus, .clg-modal textarea:focus { border-color: var(--clf-accent); }
+    .clg-modal textarea { height: 80px; resize: none; }
+    .clg-modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-plain { background: none; border: none; color: var(--clf-sub); cursor: pointer; font-size: 13px; font-family: inherit; }
+    .btn-plain:hover { color: var(--clf-ink); }
+
+    .clf-avatar {
+        width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; font-weight: 600; font-size: 14px; color: #fff; flex-shrink: 0;
+    }
+    .avatar-rust { background: #a8481f; } .avatar-ink-blue { background: #2c3e5c; }
+    .avatar-moss { background: #4a5e3a; } .avatar-plum { background: #5c3a54; }
+
+    .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+
+    .group-card {
+        background: #fff; border: 1px solid var(--clf-line); border-radius: 8px; padding: 16px;
+        display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .group-card-top { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .group-card h3 { color: var(--clf-ink); font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+    .group-card p.desc { color: var(--clf-sub); font-size: 12.5px; line-height: 1.5; margin: 0; min-height: 38px; }
+
+    .group-card-foot {
+        display: flex; justify-content: space-between; align-items: center;
+        border-top: 1px solid var(--clf-line); padding-top: 12px; margin-top: 14px;
+    }
+    .group-members { color: var(--clf-sub); font-size: 12.5px; }
+    .group-actions { display: flex; gap: 8px; }
+    .btn-line {
+        border: 1px solid var(--clf-line); background: #fff; color: var(--clf-ink); text-decoration: none;
+        font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: 6px; white-space: nowrap;
+    }
+    .btn-line:hover { border-color: var(--clf-ink); }
+    .btn-line.solid { background: var(--clf-ink); color: #fff; border-color: var(--clf-ink); }
+    .btn-line.solid:hover { background: #000; }
+    .group-joined { color: #4a5e3a; font-size: 12.5px; font-weight: 700; align-self: center; }
+
+    .feed-empty { background: #fff; border: 1px dashed var(--clf-line); border-radius: 8px; padding: 28px; text-align: center; color: var(--clf-sub); font-size: 13.5px; }
+</style>
+
+<div class="clg-header">
     <div>
-        <h1>Campus Groups</h1>
-        <p>Join communities, modules study teams, and interest clubs.</p>
+        <h1>Campus groups</h1>
+        <p>Join communities, module study teams, and interest clubs.</p>
     </div>
-    <!-- Simple trigger button to reveal creation card -->
-    <button onclick="document.getElementById('create-modal').style.display='block'" class="feed-submit-btn">
-        + Create Group
-    </button>
+    <button onclick="document.getElementById('create-modal').style.display='block'" class="btn-primary">+ Create group</button>
 </div>
 
-<!-- Hidden Creation Form Overlay Sheet -->
-<div id="create-modal" style="display: none; background-color: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 16px; padding: 24px; margin-bottom: 40px;">
-    <h3 style="color: #ffffff; margin-bottom: 16px;">Launch a New Community</h3>
-    <form method="POST" action="index.php" style="display: flex; flex-direction: column; gap: 16px;">
+<div id="create-modal" class="clg-modal">
+    <h3>Launch a new community</h3>
+    <form method="POST" action="index.php">
         <input type="hidden" name="create_group" value="1">
-        <input type="text" name="name" placeholder="Group Name (e.g., PHP Developers Club)" required 
-               style="width:100%; padding:12px; background:#1e1e1e; border:1px solid #3d3d3d; border-radius:8px; color:white;">
-        <textarea name="description" placeholder="What is this community group about?" required 
-                  style="width:100%; height:80px; padding:12px; background:#1e1e1e; border:1px solid #3d3d3d; border-radius:8px; color:white; resize:none;"></textarea>
-        <div style="display: flex; gap: 12px; justify-content: flex-end;">
-            <button type="button" onclick="document.getElementById('create-modal').style.display='none'" 
-                    style="background: transparent; color: white; border: none; cursor: pointer;">Cancel</button>
-            <button type="submit" class="feed-submit-btn">Launch Group</button>
+        <input type="text" name="name" placeholder="Group name (e.g., PHP Developers Club)" required>
+        <textarea name="description" placeholder="What is this community about?" required></textarea>
+        <div class="clg-modal-actions">
+            <button type="button" onclick="document.getElementById('create-modal').style.display='none'" class="btn-plain">Cancel</button>
+            <button type="submit" class="btn-primary">Launch group</button>
         </div>
     </form>
 </div>
 
-<!-- Group Listings Directory Grid -->
-<div class="groups-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+<div class="groups-grid">
     <?php if (empty($groups)): ?>
         <div class="feed-empty" style="grid-column: 1/-1;">
             <p>No active groups found on campus yet.</p>
         </div>
     <?php else: ?>
         <?php foreach ($groups as $group): ?>
-            <div class="group-card" style="background-color: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="group-card">
                 <div>
-                    <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 8px;"><?= htmlspecialchars($group['name']) ?></h3>
-                    <p style="color: #a0a0a0; font-size: 14px; line-height: 1.5; margin-bottom: 16px; min-height: 42px;">
-                        <?= htmlspecialchars(substr($group['description'], 0, 90)) ?><?= strlen($group['description']) > 90 ? '...' : '' ?>
-                    </p>
+                    <div class="group-card-top">
+                        <span class="clf-avatar <?= clAvatarClass($group['name']) ?>"><?= clInitial($group['name']) ?></span>
+                        <h3><?= htmlspecialchars($group['name']) ?></h3>
+                    </div>
+                    <p class="desc"><?= htmlspecialchars(substr($group['description'], 0, 90)) ?><?= strlen($group['description']) > 90 ? '...' : '' ?></p>
                 </div>
-                
-                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #3d3d3d; padding-top: 16px; margin-top: 12px;">
-                    <span style="color: #757575; font-size: 13px;">👥 <?= $group['total_members'] ?> members</span>
-                    
-                    <div style="display: flex; gap: 8px;">
-                        <a href="/IPT_WEB_PROJECT/CampusLink/public/groups/view.php?id=<?= $group['id'] ?>" 
-                           style="color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 14px; border: 1px solid #3d3d3d; border-radius: 6px;">
-                            View
-                        </a>
-                        
+                <div class="group-card-foot">
+                    <span class="group-members"><i class="fa-solid fa-user-group"></i> <?= $group['total_members'] ?> members</span>
+                    <div class="group-actions">
+                        <a href="/IPT_WEB_PROJECT/CampusLink/public/groups/view.php?id=<?= $group['id'] ?>" class="btn-line">View</a>
                         <?php if (!$group['membership_role']): ?>
-                            <a href="/IPT_WEB_PROJECT/CampusLink/public/groups/join.php?id=<?= $group['id'] ?>" 
-                               style="background-color: #ffffff; color: #121212; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 6px;">
-                                Join
-                            </a>
+                            <a href="/IPT_WEB_PROJECT/CampusLink/public/groups/join.php?id=<?= $group['id'] ?>" class="btn-line solid">Join</a>
                         <?php else: ?>
-                            <span style="color: #10b981; font-size: 13px; font-weight: 600; align-self: center; padding-left: 4px;">
-                                ✓ <?= ucfirst($group['membership_role']) ?>
-                            </span>
+                            <span class="group-joined">✓ <?= ucfirst($group['membership_role']) ?></span>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -9,14 +9,12 @@ $profileError = '';
 $securitySuccess = '';
 $securityError = '';
 
-// Fetch fresh, up-to-date data for the logged-in student
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $userSettings = $stmt->fetch();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
-    // 1. HANDLE PROFILE UPDATES ACTION
+
     if (isset($_POST['update_profile'])) {
         $headline = trim($_POST['headline'] ?? '');
         $bio = trim($_POST['bio'] ?? '');
@@ -24,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $update = $pdo->prepare("UPDATE users SET headline = ?, bio = ? WHERE id = ?");
         if ($update->execute([$headline, $bio, $userId])) {
             $profileSuccess = "Profile details updated successfully!";
-            // Refresh local variable state
             $userSettings['headline'] = $headline;
             $userSettings['bio'] = $bio;
         } else {
@@ -32,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // 2. HANDLE SECURE PASSWORD CHANGE ACTION
     if (isset($_POST['update_security'])) {
         $currentPassword = $_POST['current_password'] ?? '';
         $newPassword = $_POST['new_password'] ?? '';
@@ -45,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (strlen($newPassword) < 6) {
             $securityError = "New password must be at least 6 characters long.";
         } else {
-            // Verify current password match against database hash tracking
             if (password_verify($currentPassword, $userSettings['password'])) {
                 $newHash = password_hash($newPassword, PASSWORD_BCRYPT);
                 $update = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
@@ -59,70 +54,115 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<div class="page-header" style="margin-bottom: 40px;">
-    <h1>Account Settings</h1>
-    <p>Manage your campus profile information details and login security settings parameters.</p>
+<style>
+    :root {
+        --clf-ink: #1c1c1c;
+        --clf-sub: #767676;
+        --clf-line: #e4e4e4;
+        --clf-bg-soft: #f6f6f4;
+        --clf-accent: #b8441f;
+    }
+
+    .cls-header { margin-bottom: 24px; }
+    .cls-header h1 { font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.01em; color: var(--clf-ink); }
+    .cls-header p { color: var(--clf-sub); margin: 0; font-size: 13.5px; }
+
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 820px) {
+        .settings-grid { grid-template-columns: 1fr; }
+    }
+
+    .cls-panel { background: #fff; border: 1px solid var(--clf-line); border-radius: 8px; padding: 22px; }
+    .cls-panel h3 { color: var(--clf-ink); font-size: 15.5px; font-weight: 700; margin: 0 0 4px; }
+    .cls-panel > p { color: var(--clf-sub); font-size: 12.5px; margin: 0 0 18px; }
+
+    .cls-flash { font-size: 13.5px; font-weight: 600; margin-bottom: 16px; padding: 9px 12px; border-radius: 6px; }
+    .cls-flash.ok { color: #2e6b45; background: #eaf5ee; border: 1px solid #cfe8d8; }
+    .cls-flash.err { color: #9c3b1e; background: #fbeae5; border: 1px solid #eccabf; }
+
+    .cls-panel form { display: flex; flex-direction: column; gap: 16px; }
+    .cls-field label { color: var(--clf-ink); font-size: 13px; display: block; margin-bottom: 7px; font-weight: 600; }
+    .cls-field input[type="text"], .cls-field input[type="password"], .cls-field textarea {
+        width: 100%; padding: 10px 12px; background: #fff; border: 1px solid var(--clf-line);
+        border-radius: 6px; color: var(--clf-ink); font-size: 13.5px; font-family: inherit; outline: none;
+    }
+    .cls-field input:focus, .cls-field textarea:focus { border-color: var(--clf-accent); }
+    .cls-field textarea { height: 110px; resize: none; line-height: 1.5; }
+
+    .cls-panel-actions { display: flex; justify-content: flex-end; }
+    .btn-primary {
+        background: var(--clf-ink); color: #fff; border: none; border-radius: 6px;
+        padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .btn-primary:hover { background: #000; }
+    .btn-outline {
+        background: #fff; color: var(--clf-ink); border: 1px solid var(--clf-line); border-radius: 6px;
+        padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--clf-ink); }
+</style>
+
+<div class="cls-header">
+    <h1>Account settings</h1>
+    <p>Manage your campus profile information and login security.</p>
 </div>
 
-<div class="settings-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;">
+<div class="settings-grid">
 
-    <!-- 👤 PANEL 1: Public Profile Details -->
-    <section style="background-color: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 16px; padding: 30px;">
-        <h3 style="color: #ffffff; font-size: 18px; font-weight: 600; margin-bottom: 6px;">Profile Card Info</h3>
-        <p style="color: #757575; font-size: 13px; margin-bottom: 24px;">This content is visible to other student directory searches.</p>
+    <section class="cls-panel">
+        <h3>Profile card info</h3>
+        <p>This content is visible to other students in directory searches.</p>
 
-        <?php if ($profileSuccess): ?> <p style="color: #10b981; font-size: 14px; font-weight: 600; margin-bottom: 16px;"><?= $profileSuccess ?></p> <?php endif; ?>
-        <?php if ($profileError): ?> <p style="color: #ef4444; font-size: 14px; font-weight: 600; margin-bottom: 16px;"><?= $profileError ?></p> <?php endif; ?>
+        <?php if ($profileSuccess): ?><div class="cls-flash ok"><?= $profileSuccess ?></div><?php endif; ?>
+        <?php if ($profileError): ?><div class="cls-flash err"><?= $profileError ?></div><?php endif; ?>
 
-        <form method="POST" action="settings.php" style="display: flex; flex-direction: column; gap: 20px;">
+        <form method="POST" action="settings.php">
             <input type="hidden" name="update_profile" value="1">
-            
-            <div>
-                <label style="color: #cbd5e1; font-size: 14px; display: block; margin-bottom: 8px; font-weight: 500;">Headline</label>
-                <input type="text" name="headline" value="<?= htmlspecialchars($userSettings['headline'] ?? '') ?>" placeholder="e.g., Computer Science sophomore | UI enthusiast" 
-                       style="width:100%; padding:12px; background:#1e1e1e; border:1px solid #3d3d3d; border-radius:8px; color:white; font-size:15px;">
+
+            <div class="cls-field">
+                <label>Headline</label>
+                <input type="text" name="headline" value="<?= htmlspecialchars($userSettings['headline'] ?? '') ?>" placeholder="e.g., Computer Science sophomore | UI enthusiast">
             </div>
 
-            <div>
-                <label style="color: #cbd5e1; font-size: 14px; display: block; margin-bottom: 8px; font-weight: 500;">Bio / Description</label>
-                <textarea name="bio" placeholder="Tell campus peers a bit about yourself, your tracks, or your projects..." 
-                          style="width:100%; height:120px; padding:12px; background:#1e1e1e; border:1px solid #3d3d3d; border-radius:8px; color:white; font-size:15px; resize:none; line-height:1.5;"><?= htmlspecialchars($userSettings['bio'] ?? '') ?></textarea>
+            <div class="cls-field">
+                <label>Bio / description</label>
+                <textarea name="bio" placeholder="Tell campus peers a bit about yourself, your tracks, or your projects..."><?= htmlspecialchars($userSettings['bio'] ?? '') ?></textarea>
             </div>
 
-            <button type="submit" class="feed-submit-btn" style="align-self: flex-end;">Save Changes</button>
+            <div class="cls-panel-actions">
+                <button type="submit" class="btn-primary">Save changes</button>
+            </div>
         </form>
     </section>
 
-    <!-- 🔒 PANEL 2: Password & Authentication Credentials -->
-    <section style="background-color: #2a2a2a; border: 1px solid #3d3d3d; border-radius: 16px; padding: 30px;">
-        <h3 style="color: #ffffff; font-size: 18px; font-weight: 600; margin-bottom: 6px;">Update Password</h3>
-        <p style="color: #757575; font-size: 13px; margin-bottom: 24px;">Ensure your account uses a secure password phrase structure.</p>
+    <section class="cls-panel">
+        <h3>Update password</h3>
+        <p>Make sure your account uses a secure password.</p>
 
-        <?php if ($securitySuccess): ?> <p style="color: #10b981; font-size: 14px; font-weight: 600; margin-bottom: 16px;"><?= $securitySuccess ?></p> <?php endif; ?>
-        <?php if ($securityError): ?> <p style="color: #ef4444; font-size: 14px; font-weight: 600; margin-bottom: 16px;"><?= $securityError ?></p> <?php endif; ?>
+        <?php if ($securitySuccess): ?><div class="cls-flash ok"><?= $securitySuccess ?></div><?php endif; ?>
+        <?php if ($securityError): ?><div class="cls-flash err"><?= $securityError ?></div><?php endif; ?>
 
-        <form method="POST" action="settings.php" style="display: flex; flex-direction: column; gap: 20px;">
+        <form method="POST" action="settings.php">
             <input type="hidden" name="update_security" value="1">
-            
-            <div>
-                <label style="color: #cbd5e1; font-size: 14px; display: block; margin-bottom: 8px; font-weight: 500;">Current Password</label>
-                <input type="password" name="current_password" required
-                       style="width:100%; padding:12px; background:#1e1e1e; border:1px solid #3d3d3d; border-radius:8px; color:white; font-size:15px;">
+
+            <div class="cls-field">
+                <label>Current password</label>
+                <input type="password" name="current_password" required>
             </div>
 
-            <div>
-                <label style="color: #cbd5e1; font-size: 14px; display: block; margin-bottom: 8px; font-weight: 500;">New Password</label>
-                <input type="password" name="new_password" required
-                       style="width:100%; padding:12px; background:#1e1e1e; border:1px solid #3d3d3d; border-radius:8px; color:white; font-size:15px;">
+            <div class="cls-field">
+                <label>New password</label>
+                <input type="password" name="new_password" required>
             </div>
 
-            <div>
-                <label style="color: #cbd5e1; font-size: 14px; display: block; margin-bottom: 8px; font-weight: 500;">Confirm New Password</label>
-                <input type="password" name="confirm_password" required
-                       style="width:100%; padding:12px; background:#1e1e1e; border:1px solid #3d3d3d; border-radius:8px; color:white; font-size:15px;">
+            <div class="cls-field">
+                <label>Confirm new password</label>
+                <input type="password" name="confirm_password" required>
             </div>
 
-            <button type="submit" class="feed-submit-btn" style="align-self: flex-end; background-color: #ffffff; color: #121212;">Update Password</button>
+            <div class="cls-panel-actions">
+                <button type="submit" class="btn-outline">Update password</button>
+            </div>
         </form>
     </section>
 
