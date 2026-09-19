@@ -68,6 +68,7 @@ if (!$group) {
     .chat-input-bar button:hover { background: #000; }
 
     .chat-syncing { color: var(--clf-sub); text-align: center; font-size: 13px; margin-top: 20px; }
+    #mdgInput { color: var(--clf-bg-soft);}
 </style>
 
 <a href="/IPT_WEB_PROJECT/CampusLink/public/groups/view.php?id=<?= $groupId ?>" class="clg-back">← Back to notice board</a>
