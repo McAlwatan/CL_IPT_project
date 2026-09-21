@@ -29,8 +29,6 @@ if (!empty($posts)) {
     }
 }
 
-// A handful of groups for the sidebar - same query shape as groups/index.php,
-// just capped to 3 so the feed doesn't turn into a second groups directory.
 $sidebarGroups = [];
 try {
     $stmt = $pdo->prepare("
@@ -47,7 +45,6 @@ try {
     $sidebarGroups = [];
 }
 
-// 3 most recent documents - same query shape as documents/index.php, capped to 3.
 $sidebarDocuments = [];
 try {
     $sidebarDocuments = $pdo->query("

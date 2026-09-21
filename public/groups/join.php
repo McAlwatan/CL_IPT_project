@@ -8,7 +8,6 @@ $groupId = $_GET['id'] ?? null;
 $userId = $_SESSION['user_id'];
 
 if ($groupId) {
-    // Fail-safe check to ensure they aren't already marked inside
     $stmt = $pdo->prepare("SELECT id FROM group_members WHERE group_id = ? AND user_id = ?");
     $stmt->execute([$groupId, $userId]);
     
@@ -17,7 +16,6 @@ if ($groupId) {
         $stmt->execute([$groupId, $userId]);
     }
     
-    // Redirect instantly into the newly joined community room space
     header("Location: /IPT_WEB_PROJECT/CampusLink/public/groups/view.php?id=" . $groupId);
     exit;
 }

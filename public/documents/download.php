@@ -2,7 +2,6 @@
 require_once __DIR__ . '/../../app/includes/db.php';
 require_once __DIR__ . '/../../app/includes/auth.php';
 
-// Stop unauthenticated visitors from running direct file streams
 if (!isset($_SESSION['user_id'])) {
     die("Authorization denied.");
 }
@@ -18,7 +17,6 @@ if ($id) {
         $filePath = __DIR__ . '/../uploads/documents/' . $doc['file_path'];
 
         if (file_exists($filePath)) {
-            // Force strict browser download disposition attachments streams
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . basename($doc['title'] . '.' . pathinfo($doc['file_path'], PATHINFO_EXTENSION)) . '"');
@@ -26,8 +24,7 @@ if ($id) {
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
             header('Content-Length: ' . filesize($filePath));
-            
-            flush(); // Clear system output buffers
+            flush(); // clearing system output buffers
             readfile($filePath);
             exit;
         }

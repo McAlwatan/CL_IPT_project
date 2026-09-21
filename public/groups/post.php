@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_SESSION['user_id'];
 
     if ($groupId && !empty($content)) {
-        // Enforce membership verification checklist before executing insert definitions
         $stmt = $pdo->prepare("
             SELECT g.is_open_posting, gm.role 
             FROM groups g

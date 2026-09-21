@@ -13,7 +13,6 @@ $userId = (int)$_SESSION['user_id'];
 $partnerId = isset($_GET['partner_id']) ? (int)$_GET['partner_id'] : null;
 
 if ($partnerId) {
-    // Locate the unique direct room shared between the active user and the partner
     $stmt = $pdo->prepare("
         SELECT cr.id 
         FROM chat_rooms cr
@@ -26,7 +25,6 @@ if ($partnerId) {
     $room = $stmt->fetch();
 
     if ($room) {
-        // Pull all messages belonging strictly to this shared room id
         $stmt = $pdo->prepare("
             SELECT * FROM messages 
             WHERE chat_room_id = ? AND group_id IS NULL 

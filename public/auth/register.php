@@ -15,25 +15,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Invalid email format.";
     }
 
-    // Check if email already exists
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
         $errors[] = "An account with this email already exists.";
     }
 
-    // Register the user if no errors exist
     if (empty($errors)) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        // MODIFIED: We set verification_token to NULL and is_active strictly to 1 for instant access
         $insert = $pdo->prepare("
             INSERT INTO users (name, email, password, university_id, verification_token, is_active) 
             VALUES (?, ?, ?, NULL, NULL, 1)
         ");
         
         if ($insert->execute([$name, $email, $hashedPassword])) {
-            // SUCCESS ROUTE: Redirect straight to the login page within your project directory structure
             header("Location: /IPT_WEB_PROJECT/CampusLink/public/auth/login.php?registered=1");
             exit;
         } else {

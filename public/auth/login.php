@@ -4,7 +4,6 @@ require_once __DIR__ . '/../../app/includes/auth.php';
 
 $error = '';
 
-// 1. Guard check if already logged in: route to onboarding if missing university_id
 if (isLoggedIn()) {
     if (empty($_SESSION['user']['university_id'])) {
         header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
@@ -27,11 +26,7 @@ if ($user && password_verify($password, $user['password'])) {
         $error = "Please verify your email address before logging in.";
     } else {
         loginUser($user);
-        
-        // FIX: Explicitly populate the session data dictionary with the current DB columns value
         $_SESSION['user']['university_id'] = $user['university_id'];
-        
-        // Check the database variable directly to determine routing paths
         if (empty($user['university_id'])) {
             header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
         } else {
