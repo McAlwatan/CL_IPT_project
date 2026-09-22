@@ -30,7 +30,8 @@ $pageTitle = $pageTitle ?? 'CampusLink';
     <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/skillsStyles.css">
     <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/topSideStyle.css">
     <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/messagesStyle.css">
-    <title><?= htmlspecialchars($pageTitle) ?> — CampusLink</title>
+    <link rel="icon" type="image/icon" href="../../public/images/favicon.png">
+    <title><?= htmlspecialchars($pageTitle) ?> | CampusLink</title>
 </head>
 <body>
     <div class="app-shell">

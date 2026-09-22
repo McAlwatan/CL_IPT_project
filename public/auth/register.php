@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <body>
         <main>
             <div class="aside_1">
+                <img class="clLogo" src="../images/favicon.png" alt="logo">
                 <h2>Sign Up</h2>
                 <?php foreach ($errors as $error): ?>
                     <p style="color:red; font-size: 14px; margin-bottom: 10px;"><?= htmlspecialchars($error) ?></p>

@@ -11,7 +11,7 @@ $navItems = [
 ];
 ?>
 <aside class="sidebar">
-    <a href="/IPT_WEB_PROJECT/CampusLink/public/feed/index.php" class="sidebar-brand">Campus<span>Link</span></a>
+    <img class="clLogo" src="../../public/images/favicon.png" alt="logo"><a href="/IPT_WEB_PROJECT/CampusLink/public/feed/index.php" class="sidebar-brand">Campus<span>Link</span></a>
 
     <nav class="sidebar-nav">
         <?php foreach ($navItems as $key => $item): ?>

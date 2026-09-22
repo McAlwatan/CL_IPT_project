@@ -26,6 +26,10 @@ main > .aside_1 {
     flex-direction: column;
     padding: 20px;
 }
+.aside_1 > img {
+    height: 100px;
+    width: 140px;
+}
 
 .aside_1 > h2 {
     font-size: 30px;

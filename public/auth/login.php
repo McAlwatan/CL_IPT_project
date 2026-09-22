@@ -43,7 +43,7 @@ if ($user && password_verify($password, $user['password'])) {
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CampusLink - Login</title>
+        <title>CampusLink | Login</title>
         <link rel="stylesheet" href="../css/authStyles.css">
     </head>
     <body>
@@ -55,6 +55,7 @@ if ($user && password_verify($password, $user['password'])) {
                     </p>
                 <?php endif; ?>
 
+                <img class="clLogo" src="../images/favicon.png" alt="logo">
                 <h2>Sign In</h2>
                 <?php if ($error): ?>
                     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
