@@ -232,13 +232,11 @@ input:focus-visible {
     height: 26px;
     font-size: 0.68rem;
 }
-
-/* Custom Two-Sided Message Board Framework */
 .chat-container {
     display: flex;
     flex-direction: column;
     height: 500px;
-    background-color: #1e1e1e; /* Deep Charcoal Backing */
+    background-color: #1e1e1e;
     border: 1px solid #3d3d3d;
     border-radius: 20px;
     margin-top: 24px;
@@ -253,23 +251,16 @@ input:focus-visible {
     flex-direction: column;
     gap: 16px;
 }
-
-/* Base Bubble Structure Layout */
 .message-row {
     display: flex;
     width: 100%;
 }
-
-/* ➡️ Right Align for Messages You Sent */
 .message-row.sent {
     justify-content: flex-end;
 }
-
-/* ⬅️ Left Align for Messages Received From Others */
 .message-row.received {
     justify-content: flex-start;
 }
-
 .message-bubble {
     max-width: 65%;
     padding: 12px 18px;
@@ -279,21 +270,16 @@ input:focus-visible {
     position: relative;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
-/* WhatsApp Shape Twists: Sent Bubbles Style (Dark Gray) */
 .message-row.sent .message-bubble {
-    background-color: #334155; /* Smooth Slate Grey */
+    background-color: #334155;
     color: #ffffff;
-    border-bottom-right-radius: 4px; /* WhatsApp Sharp Tail Corner Tip look */
+    border-bottom-right-radius: 4px;
 }
-
-/* WhatsApp Shape Twists: Received Bubbles Style (Stark White) */
 .message-row.received .message-bubble {
-    background-color: #ffffff; /* Clean White Bubble Contrast */
+    background-color: #ffffff;
     color: #121212;
     border-bottom-left-radius: 4px;
 }
-
 .message-meta {
     display: block;
     font-size: 11px;
@@ -301,16 +287,13 @@ input:focus-visible {
     text-align: right;
     opacity: 0.6;
 }
-
 .message-sender {
     display: block;
     font-weight: 600;
     font-size: 12px;
     margin-bottom: 4px;
-    color: #2563eb; /* Blue name tag for readability */
+    color: #2563eb;
 }
-
-/* Message Entry Post Bar Panel UI Elements */
 .chat-input-bar {
     background-color: #2a2a2a;
     border-top: 1px solid #3d3d3d;
@@ -318,7 +301,6 @@ input:focus-visible {
     display: flex;
     gap: 12px;
 }
-
 .chat-input-bar input {
     flex: 1;
     background-color: #1e1e1e;
@@ -328,12 +310,10 @@ input:focus-visible {
     color: #ffffff;
     font-size: 15px;
 }
-
 .chat-input-bar input:focus {
     outline: none;
     border-color: #ffffff;
 }
-
 
 @media (max-width: 900px) {
     .sidebar {
@@ -567,17 +547,26 @@ input:focus-visible {
     transition: opacity 0.15s ease;
 }
 
-.comment-form button:hover { opacity: 0.85; }
+.comment-form button:hover { 
+    opacity: 0.85; 
+}
 
 @media (prefers-reduced-motion: reduce) {
-    .comment-form button { transition: none; }
+    .comment-form button { 
+        transition: none; 
+    }
 }
 
 @media (max-width: 640px) {
     .post-header .topbar-name,
-    .app-content { padding-left: 16px; padding-right: 16px; }
-
-    .comment-form { flex-direction: column; }
-
-    .comment-form button { width: 100%; }
+    .app-content { 
+        padding-left: 16px; 
+        padding-right: 16px; 
+    }
+    .comment-form { 
+        flex-direction: column; 
+    }
+    .comment-form button { 
+        width: 100%; 
+    }
 }

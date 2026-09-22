@@ -1,0 +1,45 @@
+:root {
+        --clf-ink: #1c1c1c;
+        --clf-sub: #767676;
+        --clf-line: #e4e4e4;
+        --clf-bg-soft: #f6f6f4;
+        --clf-accent: #b8441f;
+    }
+
+    .cls-header { margin-bottom: 24px; }
+    .cls-header h1 { font-size: 22px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.01em; color: var(--clf-ink); }
+    .cls-header p { color: var(--clf-sub); margin: 0; font-size: 13.5px; }
+
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 820px) {
+        .settings-grid { grid-template-columns: 1fr; }
+    }
+
+    .cls-panel { background: #fff; border: 1px solid var(--clf-line); border-radius: 8px; padding: 22px; }
+    .cls-panel h3 { color: var(--clf-ink); font-size: 15.5px; font-weight: 700; margin: 0 0 4px; }
+    .cls-panel > p { color: var(--clf-sub); font-size: 12.5px; margin: 0 0 18px; }
+
+    .cls-flash { font-size: 13.5px; font-weight: 600; margin-bottom: 16px; padding: 9px 12px; border-radius: 6px; }
+    .cls-flash.ok { color: #2e6b45; background: #eaf5ee; border: 1px solid #cfe8d8; }
+    .cls-flash.err { color: #9c3b1e; background: #fbeae5; border: 1px solid #eccabf; }
+
+    .cls-panel form { display: flex; flex-direction: column; gap: 16px; }
+    .cls-field label { color: var(--clf-ink); font-size: 13px; display: block; margin-bottom: 7px; font-weight: 600; }
+    .cls-field input[type="text"], .cls-field input[type="password"], .cls-field textarea {
+        width: 100%; padding: 10px 12px; background: #fff; border: 1px solid var(--clf-line);
+        border-radius: 6px; color: var(--clf-ink); font-size: 13.5px; font-family: inherit; outline: none;
+    }
+    .cls-field input:focus, .cls-field textarea:focus { border-color: var(--clf-accent); }
+    .cls-field textarea { height: 110px; resize: none; line-height: 1.5; }
+
+    .cls-panel-actions { display: flex; justify-content: flex-end; }
+    .btn-primary {
+        background: var(--clf-ink); color: #fff; border: none; border-radius: 6px;
+        padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .btn-primary:hover { background: #000; }
+    .btn-outline {
+        background: #fff; color: var(--clf-ink); border: 1px solid var(--clf-line); border-radius: 6px;
+        padding: 9px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--clf-ink); }

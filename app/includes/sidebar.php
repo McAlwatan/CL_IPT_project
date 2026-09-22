@@ -9,10 +9,6 @@ $navItems = [
     'skills'      => ['label' => 'Skills',      'href' => '/IPT_WEB_PROJECT/CampusLink/public/skills/index.php', 'icon' => '<i class="fa-solid fa-user-check"></i>'],
     'messages'    => ['label' => 'Messages',    'href' => '/IPT_WEB_PROJECT/CampusLink/public/messages/index.php', 'icon' => '<i class="fa-regular fa-message"></i>'],
 ];
-// Styling and the collapse/off-canvas behavior for this sidebar live in the
-// <style>/<script> block at the top of topbar.php, so that markup isn't
-// duplicated on every page. Make sure topbar.php is included on the same
-// page as this file.
 ?>
 <aside class="sidebar">
     <a href="/IPT_WEB_PROJECT/CampusLink/public/feed/index.php" class="sidebar-brand">Campus<span>Link</span></a>

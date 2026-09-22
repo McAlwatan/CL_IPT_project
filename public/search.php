@@ -1,7 +1,4 @@
 <?php
-// Global search endpoint backing the topbar search box.
-// Place this at /IPT_WEB_PROJECT/CampusLink/public/search.php — the topbar's
-// JS calls it at that exact absolute path.
 require_once __DIR__ . '/../app/includes/db.php';
 require_once __DIR__ . '/../app/includes/auth.php';
 
@@ -22,17 +19,15 @@ if (mb_strlen($query) < 2) {
 $like = '%' . $query . '%';
 $userId = $_SESSION['user_id'];
 
-// Students (exclude the logged-in user from their own search results)
 $stmt = $pdo->prepare("SELECT id, name FROM users WHERE name LIKE ? AND id != ? ORDER BY name ASC LIMIT 5");
 $stmt->execute([$like, $userId]);
 $students = $stmt->fetchAll();
 
-// Groups
+
 $stmt = $pdo->prepare("SELECT id, name FROM groups WHERE name LIKE ? ORDER BY name ASC LIMIT 5");
 $stmt->execute([$like]);
 $groups = $stmt->fetchAll();
 
-// Documents (match on title or course code)
 $stmt = $pdo->prepare("
     SELECT id, title, course_code
     FROM documents

@@ -23,6 +23,13 @@ $pageTitle = $pageTitle ?? 'CampusLink';
     <script src="https://kit.fontawesome.com/387650f35b.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/IPT_WEB_PROJECT/CampusLink/public/css/dashboard.css">
+    <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/profileStyle.css">
+    <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/settingsStyle.css">
+    <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/marketPlaceStyle.css">
+    <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/documentStyle.css">
+    <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/skillsStyles.css">
+    <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/topSideStyle.css">
+    <link rel="stylesheet" href="/IPT_WEB_PROJECT/Campuslink/public/css/messagesStyle.css">
     <title><?= htmlspecialchars($pageTitle) ?> — CampusLink</title>
 </head>
 <body>

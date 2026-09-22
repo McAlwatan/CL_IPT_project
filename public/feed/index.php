@@ -67,8 +67,6 @@ function initials($name) {
     return htmlspecialchars(mb_strtoupper($first . $second));
 }
 
-// Deterministic, muted color per name - not a full rainbow, just enough
-// variation to tell people apart at a glance.
 function avatarColorClass($name) {
     $palette = ['rust', 'ink-blue', 'moss', 'plum'];
     $index = crc32((string)$name) % count($palette);
@@ -319,6 +317,7 @@ function renderContentWithHashtags($content) {
         padding: 5px 11px;
         border-radius: 6px;
         white-space: nowrap;
+        width: auto;
     }
     .btn-line:hover { border-color: var(--clf-ink); }
     .btn-line.solid { background: var(--clf-ink); color: #fff; border-color: var(--clf-ink); }
