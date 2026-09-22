@@ -31,7 +31,6 @@ function login_user(array $user): void {
         'id' => $user['id'],
         'name' => $user['name'],
         'email' => $user['email'],
-        // FIX: Fixed spelling matching the database row
         'university_id' => $user['university_id'] ?? null
     ];
 }
