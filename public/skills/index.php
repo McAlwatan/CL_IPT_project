@@ -125,7 +125,7 @@ function clAvatarClass($seed) {
         <?php foreach ($peerSkills as $peer): ?>
             <div class="partner-card">
                 <div>
-                    <a href="/IPT_WEB_PROJECT/CampusLink/public/profile.php?id=<?= $peer['id'] ?>" class="partner-head">
+                    <a href="/CL_DEV/CampusLink/public/profile.php?id=<?= $peer['id'] ?>" class="partner-head">
                         <span class="clf-avatar partner-avatar <?= clAvatarClass($peer['name']) ?>"><?= clInitial($peer['name']) ?></span>
                         <div>
                             <h4 class="partner-name"><?= htmlspecialchars($peer['name']) ?></h4>
@@ -140,7 +140,7 @@ function clAvatarClass($seed) {
                     </div>
                 </div>
 
-                <a href="/IPT_WEB_PROJECT/CampusLink/public/profile.php?id=<?= $peer['id'] ?>" class="btn-line">View profile</a>
+                <a href="/CL_DEV/CampusLink/public/profile.php?id=<?= $peer['id'] ?>" class="btn-line">View profile</a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

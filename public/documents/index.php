@@ -110,7 +110,7 @@ function clAvatarClass($seed) {
                 </div>
                 <div class="doc-card-foot">
                     <span class="doc-size"><i class="fa-solid fa-download"></i> <?= round($doc['file_size'] / 1024 / 1024, 2) ?> MB</span>
-                    <a href="/IPT_WEB_PROJECT/CampusLink/public/documents/download.php?id=<?= $doc['id'] ?>" class="btn-line solid">Download</a>
+                    <a href="/CL_DEV/CampusLink/public/documents/download.php?id=<?= $doc['id'] ?>" class="btn-line solid">Download</a>
                 </div>
             </div>
         <?php endforeach; ?>

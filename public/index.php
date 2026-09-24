@@ -23,7 +23,7 @@
                     groups, all in one place. Every account is a verified student, so
                     it's just the people you actually study with.</p>
                     <div class="hero-actions">
-                        <a class="btn-primary" href="/IPT_WEB_PROJECT/CampusLink/public/auth/register.php">Create your account</a>
+                        <a class="btn-primary" href="/CL_DEV/CampusLink/public/auth/register.php">Create your account</a>
                     </div>
                     <p class="hero-note">Free for verified students at your university.</p>
                 </div>
@@ -131,7 +131,7 @@
                         <li><i class="fa-solid fa-paper-plane"></i> Live for your class the same day</li>
                     </ul>
                 </div>
-                <a class="btn-primary btn-inverse" href="/IPT_WEB_PROJECT/CampusLink/public/auth/register.php">Create your account</a>
+                <a class="btn-primary btn-inverse" href="/CL_DEV/CampusLink/public/auth/register.php">Create your account</a>
             </div>
         </section>
     </main>
@@ -142,7 +142,7 @@
             <nav class="footer-links">
                 <a href="#home">Home</a>
                 <a href="#features">Features</a>
-                <a href="/IPT_WEB_PROJECT/CampusLink/public/auth/login.php">Sign in</a>
+                <a href="/CL_DEV/CampusLink/public/auth/login.php">Sign in</a>
             </nav>
             <span class="footer-copy">&copy; <?= date('Y') ?> CampusLink</span>
         </div>

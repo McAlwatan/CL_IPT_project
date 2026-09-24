@@ -6,9 +6,9 @@ $error = '';
 
 if (isLoggedIn()) {
     if (empty($_SESSION['user']['university_id'])) {
-        header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
+        header("Location: /CL_DEV/CampusLink/public/onboarding.php");
     } else {
-        header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+        header("Location: /CL_DEV/CampusLink/public/feed/index.php");
     }
     exit;
 }
@@ -28,9 +28,9 @@ if ($user && password_verify($password, $user['password'])) {
         loginUser($user);
         $_SESSION['user']['university_id'] = $user['university_id'];
         if (empty($user['university_id'])) {
-            header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
+            header("Location: /CL_DEV/CampusLink/public/onboarding.php");
         } else {
-            header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+            header("Location: /CL_DEV/CampusLink/public/feed/index.php");
         }
         exit;
     }

@@ -16,9 +16,9 @@ if ($groupId) {
         $stmt->execute([$groupId, $userId]);
     }
     
-    header("Location: /IPT_WEB_PROJECT/CampusLink/public/groups/view.php?id=" . $groupId);
+    header("Location: /CL_DEV/CampusLink/public/groups/view.php?id=" . $groupId);
     exit;
 }
 
-header("Location: /IPT_WEB_PROJECT/CampusLink/public/groups/index.php");
+header("Location: /CL_DEV/CampusLink/public/groups/index.php");
 exit;

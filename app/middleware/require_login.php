@@ -22,7 +22,7 @@ if (isLoggedIn()) {
         } else {
             // Detour ONLY if they are truly missing academic metadata entries on disk
             if (basename($_SERVER['PHP_SELF']) !== 'onboarding.php') {
-                header("Location: /IPT_WEB_PROJECT/CampusLink/public/onboarding.php");
+                header("Location: /CL_DEV/CampusLink/public/onboarding.php");
                 exit;
             }
         }

@@ -15,7 +15,7 @@ $userStmt->execute([$userId]);
 $userCheck = $userStmt->fetch();
 
 if ($userCheck && $userCheck['university_id'] !== null && $userCheck['course'] !== null) {
-    header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+    header("Location: /CL_DEV/CampusLink/public/feed/index.php");
     exit;
 }
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($update->execute([$universityId, $course, $yearOfStudy, $interestsString, $userId])) {
             $_SESSION['user']['university_id'] = $universityId;
-            header("Location: /IPT_WEB_PROJECT/CampusLink/public/feed/index.php");
+            header("Location: /CL_DEV/CampusLink/public/feed/index.php");
             exit;
         } else {
             $errors[] = "Failed to update academic profile credentials mapping paths.";
@@ -57,54 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --clf-ink: #1c1c1c;
-            --clf-sub: #767676;
-            --clf-line: #e4e4e4;
-            --clf-bg-soft: #f6f6f4;
-            --clf-accent: #b8441f;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'DM Sans', sans-serif; }
-        body {
-            background-color: var(--clf-bg-soft); color: var(--clf-ink);
-            display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px;
-        }
-        .wizard-card {
-            background-color: #fff; border: 1px solid var(--clf-line); border-radius: 10px;
-            padding: 36px; width: 100%; max-width: 520px;
-        }
-        h2 { font-size: 23px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
-        .subtitle { color: var(--clf-sub); font-size: 13.5px; margin-bottom: 26px; line-height: 1.5; }
-
-        label { display: block; color: var(--clf-ink); font-size: 13px; font-weight: 600; margin-bottom: 7px; }
-        select, input[type="text"] {
-            width: 100%; padding: 11px 12px; background-color: #fff; border: 1px solid var(--clf-line);
-            border-radius: 6px; color: var(--clf-ink); font-size: 14px; margin-bottom: 20px; outline: none;
-            font-family: inherit;
-        }
-        select:focus, input[type="text"]:focus { border-color: var(--clf-accent); }
-
-        .interests-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 26px; }
-        .interest-item {
-            display: flex; align-items: center; gap: 9px; background-color: #fff; border: 1px solid var(--clf-line);
-            padding: 10px 12px; border-radius: 6px; cursor: pointer;
-        }
-        .interest-item:has(input:checked) { border-color: var(--clf-ink); background: var(--clf-bg-soft); }
-        .interest-item input { cursor: pointer; accent-color: var(--clf-ink); }
-        .interest-item span { font-size: 13.5px; color: var(--clf-ink); }
-
-        .submit-btn {
-            width: 100%; padding: 12px; background-color: var(--clf-ink); color: #fff; border: none;
-            border-radius: 6px; font-weight: 600; font-size: 14.5px; cursor: pointer;
-        }
-        .submit-btn:hover { background-color: #000; }
-
-        .error-msg {
-            color: #9c3b1e; background: #fbeae5; border: 1px solid #eccabf; border-radius: 6px;
-            padding: 9px 12px; font-size: 13px; margin-bottom: 14px; font-weight: 600;
-        }
-    </style>
+    <link rel="stylesheet" href="/CL_DEV/CampusLink/public/css/onboardingStyle.css">
 </head>
 <body>
 

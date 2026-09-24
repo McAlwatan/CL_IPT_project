@@ -37,8 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'])) {
                 $stmt = $pdo->prepare("INSERT INTO chat_members (chat_room_id, user_id) VALUES (?, ?), (?, ?)");
                 $stmt->execute([$roomId, $userId, $roomId, $recipientId]);
             }
-
-            // 3. Insert the private message linked safely to the resolved chat_room_id
             // group_id is explicitly set to NULL to cleanly separate this from public channels
             $stmt = $pdo->prepare("
                 INSERT INTO messages (chat_room_id, group_id, sender_id, message_text) 

@@ -242,6 +242,18 @@
     font-size: 12.5px; 
     font-weight: 500; 
 }
+.market-owner-badge { 
+    background: var(--clf-bg-soft); 
+    border: 1px solid var(--clf-line); 
+    color: var(--clf-sub); 
+    font-size: 10.5px; 
+    font-weight: 700; 
+    padding: 1px 7px; 
+    border-radius: 999px; 
+}
+.market-foot form { 
+    margin: 0; 
+}
 .btn-line {
     border: 1px solid var(--clf-line); 
     background: #fff; 
@@ -262,6 +274,21 @@
 }
 .btn-line.solid:hover { 
     background: #000; 
+}
+.btn-danger { 
+    border: 1px solid #eccabf; 
+    background: #fff; 
+    color: #9c3b1e; 
+    font-size: 12.5px; 
+    font-weight: 600; 
+    padding: 6px 13px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-family: inherit; 
+}
+.btn-danger:hover { 
+    background: #fbeae5; 
+    border-color: #9c3b1e; 
 }
 .feed-empty { 
     background: #fff; 

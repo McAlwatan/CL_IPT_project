@@ -1,3 +1,3 @@
 <?php
 
-    define('BASE_URL', 'IPT_WEB_PROJECT/CampusLink/public');
+    define('BASE_URL', 'CL_DEV/CampusLink/public');

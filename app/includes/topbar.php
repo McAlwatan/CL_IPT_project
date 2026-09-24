@@ -16,14 +16,14 @@
         <span class="chevron">▾</span>
 
         <div class="topbar-user-menu" id="userMenu">
-            <a href="/IPT_WEB_PROJECT/CampusLink/public/profile.php"><i class="fa-solid fa-user"></i> Profile</a>
-            <a href="/IPT_WEB_PROJECT/CampusLink/public/settings.php"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="/CL_DEV/CampusLink/public/profile.php"><i class="fa-solid fa-user"></i> Profile</a>
+            <a href="/CL_DEV/CampusLink/public/settings.php"><i class="fa-solid fa-gear"></i> Settings</a>
             <hr>
-            <a href="/IPT_WEB_PROJECT/CampusLink/public/auth/logout.php" class="danger"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</a>
+            <a href="/CL_DEV/CampusLink/public/auth/logout.php" class="danger"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</a>
         </div>
     </div>
 </header>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<script src="../../public/js/topbar.js"></script>
+<script src="/CL_DEV/CampusLink/public/js/topbar.js"></script>

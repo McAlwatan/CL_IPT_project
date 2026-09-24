@@ -59,9 +59,9 @@ function clAvatarClass($seed) {
 
     <div class="clp-actions">
         <?php if (!$isOwnProfile): ?>
-            <a href="/IPT_WEB_PROJECT/CampusLink/public/messages/index.php?user_id=<?= $profileUser['id'] ?>" class="btn-primary">Message student</a>
+            <a href="/CL_DEV/CampusLink/public/messages/index.php?user_id=<?= $profileUser['id'] ?>" class="btn-primary">Message student</a>
         <?php else: ?>
-            <a href="/IPT_WEB_PROJECT/CampusLink/public/settings.php" class="btn-outline">Update profile info</a>
+            <a href="/CL_DEV/CampusLink/public/settings.php" class="btn-outline">Update profile info</a>
         <?php endif; ?>
     </div>
 </div>

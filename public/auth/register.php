@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         
         if ($insert->execute([$name, $email, $hashedPassword])) {
-            header("Location: /IPT_WEB_PROJECT/CampusLink/public/auth/login.php?registered=1");
+            header("Location: /CL_DEV/CampusLink/public/auth/login.php?registered=1");
             exit;
         } else {
             $errors[] = "Something went wrong during account registration. Please try again.";

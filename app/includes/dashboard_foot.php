@@ -2,6 +2,6 @@
         </div>
     </div>
 
-    <script src="/IPT_WEB_PROJECT/CampusLink/public/js/dashboard.js"></script>
+    <script src="/CL_DEV/CampusLink/public/js/dashboard.js"></script>
 </body>
 </html>

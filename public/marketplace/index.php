@@ -7,6 +7,12 @@ $userId = $_SESSION['user_id'];
 $message = '';
 $error = '';
 
+if (isset($_GET['deleted'])) {
+    $message = "Listing removed from the campus board.";
+} elseif (isset($_GET['error'])) {
+    $error = "You can only delete listings you posted yourself.";
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['publish_item'])) {
     $title = trim($_POST['title'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -133,8 +139,18 @@ function clAvatarClass($seed) {
                         <div class="market-seller">
                             <span class="clf-avatar <?= clAvatarClass($item['seller_name']) ?>"><?= clInitial($item['seller_name']) ?></span>
                             <span class="name"><?= htmlspecialchars($item['seller_name']) ?></span>
+                            <?php if ((int)$item['seller_id'] === (int)$userId): ?>
+                                <span class="market-owner-badge">You</span>
+                            <?php endif; ?>
                         </div>
-                        <a href="/IPT_WEB_PROJECT/CampusLink/public/profile.php?id=<?= $item['seller_id'] ?>" class="btn-line solid">Contact</a>
+                        <?php if ((int)$item['seller_id'] === (int)$userId): ?>
+                            <form method="POST" action="delete.php" onsubmit="return confirm('Remove this listing from the marketplace?');">
+                                <input type="hidden" name="listing_id" value="<?= (int)$item['id'] ?>">
+                                <button type="submit" class="btn-danger">Delete</button>
+                            </form>
+                        <?php else: ?>
+                            <a href="/CL_DEV/CampusLink/public/profile.php?id=<?= $item['seller_id'] ?>" class="btn-line solid">Contact</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

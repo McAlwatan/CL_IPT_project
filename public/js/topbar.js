@@ -59,18 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
         var rows = items.map(item => {
             if (type === 'student') {
                 var initial = item.name.charAt(0).toUpperCase();
-                return `<a class="search-result-item" href="/IPT_WEB_PROJECT/CampusLink/public/profile.php?id=${item.id}">
+                return `<a class="search-result-item" href="/CL_DEV/CampusLink/public/profile.php?id=${item.id}">
                     <span class="clf-avatar avatar-ink-blue">${initial}</span>
                     <span>${item.name}</span>
                 </a>`;
             }
             if (type === 'group') {
-                return `<a class="search-result-item" href="/IPT_WEB_PROJECT/CampusLink/public/groups/view.php?id=${item.id}">
+                return `<a class="search-result-item" href="/CL_DEV/CampusLink/public/groups/view.php?id=${item.id}">
                     <span class="badge-icon">👥</span>
                     <span>${item.name}</span>
                 </a>`;
             }
-            return `<a class="search-result-item" href="/IPT_WEB_PROJECT/CampusLink/public/documents/download.php?id=${item.id}">
+            return `<a class="search-result-item" href="/CL_DEV/CampusLink/public/documents/download.php?id=${item.id}">
                 <span class="badge-icon">📄</span>
                 <span>${item.title} <span class="search-result-meta">· ${item.course_code}</span></span>
             </a>`;
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         searchTimer = setTimeout(() => {
-            fetch(`/IPT_WEB_PROJECT/CampusLink/public/search.php?q=${encodeURIComponent(query)}`)
+            fetch(`/CL_DEV/CampusLink/public/search.php?q=${encodeURIComponent(query)}`)
                 .then(res => res.json())
                 .then(data => {
                     var html = '';

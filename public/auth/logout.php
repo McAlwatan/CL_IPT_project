@@ -18,5 +18,5 @@ if (ini_get("session.use_cookies")) {
 
 session_destroy();
 
-header("Location: /IPT_WEB_PROJECT/CampusLink/public/auth/login.php");
+header("Location: /CL_DEV/CampusLink/public/auth/login.php");
 exit;
